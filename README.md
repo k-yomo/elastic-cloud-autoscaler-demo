@@ -31,9 +31,9 @@ When scaling is applied, it'll print scaling operation like below.
 ```
 ==============================================
 scaling direction: SCALING_OUT
-topology size updated from: 1024 => to 65536
-replica num updated from: 1 => to 0
-reason: current or desired topology size '1g' is less than min topology size '64g'
+topology size updated from: 65536 => to 131072
+replica num updated from: 1 => to 3
+reason: current or desired topology size '64g' is less than min topology size '128g'
 ==============================================
 ```
 
