@@ -94,10 +94,10 @@ func realMain() error {
 			}
 			if scalingOperation.Direction() != autoscaler.ScalingDirectionNone {
 				fmt.Println("==============================================")
-				fmt.Println("scaling direction", scalingOperation.Direction())
+				fmt.Println("scaling direction:", scalingOperation.Direction())
 				fmt.Println(fmt.Sprintf("topology size updated from: %d => to %d", *scalingOperation.FromTopologySize.Value, *scalingOperation.ToTopologySize.Value))
 				fmt.Println(fmt.Sprintf("replica num updated from: %d => to %d", scalingOperation.FromReplicaNum, scalingOperation.ToReplicaNum))
-				fmt.Println("reason", scalingOperation.Reason)
+				fmt.Println("reason:", scalingOperation.Reason)
 				fmt.Println("==============================================")
 			} else {
 				fmt.Println("not scaling:", scalingOperation.Reason)

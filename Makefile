@@ -7,8 +7,8 @@ setup:
 	cd terraform && terraform apply
 	make set-env-vars
 
-.PHONY: teardown
-teardown:
+.PHONY: cleanup
+cleanup:
 	make check-required-env
 	cd terraform && terraform destroy
 
@@ -27,3 +27,7 @@ set-env-vars:
 	echo "MONITORING_ELASTICSEARCH_CLOUD_ID=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_cloud_id)" >> .env
 	echo "MONITORING_ELASTICSEARCH_USERNAME=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_username)" >> .env
 	echo "MONITORING_ELASTICSEARCH_PASSWORD=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_password)" >> .env
+
+.PHONY: run
+run:
+	go run .
