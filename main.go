@@ -78,7 +78,7 @@ func realMain() error {
 				},
 			},
 			Index:         "elastic-cloud-autoscaler-demo",
-			ShardsPerNode: 1,
+			ShardsPerNode: 2,
 		},
 	})
 	if err != nil {
