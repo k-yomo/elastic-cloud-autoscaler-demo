@@ -22,4 +22,4 @@
 *.tfstate.*
 
 .env
-.envrc
+.envrc.local

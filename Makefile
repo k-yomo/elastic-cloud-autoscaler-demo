@@ -6,6 +6,7 @@ setup:
 	cd terraform && terraform init
 	cd terraform && terraform apply
 	make set-env-vars
+	make index-products
 
 .PHONY: cleanup
 cleanup:
@@ -22,11 +23,16 @@ endif
 set-env-vars:
 	echo "DEPLOYMENT_ID=$(shell cd terraform && terraform output demo_deployment_id)" > .env
 	echo "ELASTICSEARCH_CLOUD_ID=$(shell cd terraform && terraform output demo_elasticsearch_cloud_id)" >> .env
+	echo "ELASTICSEARCH_URL=$(shell cd terraform && terraform output demo_elasticsearch_url)" >> .env
 	echo "ELASTICSEARCH_USERNAME=$(shell cd terraform && terraform output demo_elasticsearch_username)" >> .env
 	echo "ELASTICSEARCH_PASSWORD=$(shell cd terraform && terraform output demo_elasticsearch_password)" >> .env
 	echo "MONITORING_ELASTICSEARCH_CLOUD_ID=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_cloud_id)" >> .env
 	echo "MONITORING_ELASTICSEARCH_USERNAME=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_username)" >> .env
 	echo "MONITORING_ELASTICSEARCH_PASSWORD=$(shell cd terraform && terraform output demo_monitoring_elasticsearch_password)" >> .env
+
+.PHONY: index-products
+index-products:
+	cd scripts/index_products && go run .
 
 .PHONY: run
 run:

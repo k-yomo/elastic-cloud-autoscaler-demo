@@ -4,9 +4,11 @@ Demo of https://github.com/k-yomo/elastic-cloud-autoscaler
 ⚠️ Running the demo will cost money.
 
 ## Prerequisites
+- Elastic Cloud subscription
 - Go v.1.19.x
 - Terraform v1.3.6
-- Elastic Cloud subscription
+- [k6](https://k6.io/docs/get-started/installation/)
+- [direnv](https://direnv.net/)
 
 ## Setup
 Create Elastic Cloud's API key and set it to env variable.
@@ -16,7 +18,7 @@ https://cloud.elastic.co/deployment-features/keys
 $ export EC_API_KEY=
 ```
 
-2. Run `setup` command.  It'll create required deployments and elasticsearch index.
+2. Run `setup` command.  It'll create required deployments and elasticsearch index with 1.7M documents.
 ```shell
 $ make setup
 ```

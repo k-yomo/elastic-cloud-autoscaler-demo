@@ -4,6 +4,9 @@ output "demo_deployment_id" {
 output "demo_elasticsearch_cloud_id" {
   value = ec_deployment.elastic_cloud_autoscaler_demo.elasticsearch.0.cloud_id
 }
+output "demo_elasticsearch_url" {
+  value = ec_deployment.elastic_cloud_autoscaler_demo.elasticsearch.0.https_endpoint
+}
 output "demo_elasticsearch_username" {
   value = ec_deployment.elastic_cloud_autoscaler_demo.elasticsearch_username
 }
