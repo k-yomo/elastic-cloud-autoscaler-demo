@@ -64,20 +64,22 @@ func realMain() error {
 		ElasticsearchClient: esClient,
 		Scaling: autoscaler.ScalingConfig{
 			DefaultMinSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(1)),
-			DefaultMaxSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(4)),
+			DefaultMaxSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(2)),
 			AutoScaling: &autoscaler.AutoScalingConfig{
-				MetricsProvider:       metrics.NewMonitoringElasticsearchMetricsProvider(monitoringESClient),
-				DesiredCPUUtilPercent: 50,
+				MetricsProvider:           metrics.NewMonitoringElasticsearchMetricsProvider(monitoringESClient),
+				DesiredCPUUtilPercent:     50,
+				ScaleOutThresholdDuration: 5 * time.Minute,
+				ScaleInThresholdDuration:  5 * time.Minute,
 			},
 			ScheduledScalings: []*autoscaler.ScheduledScalingConfig{
-				{
-					StartCronSchedule: "TZ=UTC 30 * * * *",
-					Duration:          30 * time.Minute,
-					MinSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(2)),
-					MaxSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(4)),
-				},
+				// {
+				// 	StartCronSchedule: "TZ=UTC 30 * * * *",
+				// 	Duration:          30 * time.Minute,
+				// 	MinSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(2)),
+				// 	MaxSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(4)),
+				// },
 			},
-			Index:         "elastic-cloud-autoscaler-demo",
+			Index:         "products",
 			ShardsPerNode: 2,
 		},
 	})
@@ -92,15 +94,15 @@ func realMain() error {
 			if err != nil {
 				return err
 			}
-			if scalingOperation.Direction() != autoscaler.ScalingDirectionNone {
-				fmt.Println("==============================================")
+			fmt.Println("==============================================")
+			if scalingOperation.Direction() != autoscaler.ScalingDirectionNone || scalingOperation.FromReplicaNum != scalingOperation.ToReplicaNum {
 				fmt.Println("scaling direction:", scalingOperation.Direction())
 				fmt.Println(fmt.Sprintf("topology size updated from: %d => to %d", *scalingOperation.FromTopologySize.Value, *scalingOperation.ToTopologySize.Value))
-				fmt.Println(fmt.Sprintf("replica num updated from: %d => to %d", scalingOperation.FromReplicaNum, scalingOperation.ToReplicaNum))
+				if scalingOperation.FromReplicaNum != scalingOperation.ToReplicaNum {
+					fmt.Println(fmt.Sprintf("replica num updated from: %d => to %d", scalingOperation.FromReplicaNum, scalingOperation.ToReplicaNum))
+				}
 				fmt.Println("reason:", scalingOperation.Reason)
 				fmt.Println("==============================================")
-			} else {
-				fmt.Println("not scaling:", scalingOperation.Reason)
 			}
 			log.Println("[END] elastic cloud autoscaler")
 		}
