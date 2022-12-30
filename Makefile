@@ -6,6 +6,7 @@ setup:
 	cd terraform && terraform init
 	cd terraform && terraform apply
 	make set-env-vars
+	direnv allow .
 	make index-products
 
 .PHONY: cleanup
