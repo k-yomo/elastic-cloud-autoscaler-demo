@@ -8,7 +8,12 @@ resource "ec_deployment" "elastic_cloud_autoscaler_demo" {
   elasticsearch {
     topology {
       id         = "hot_content"
-      size       = "64g"
+      size       = "${64 * 3}g"
+      zone_count = 2
+    }
+    topology {
+      id         = "master"
+      size       = "1g"
       zone_count = 2
     }
   }

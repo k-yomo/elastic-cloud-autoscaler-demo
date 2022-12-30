@@ -4,6 +4,24 @@ import { SharedArray } from 'k6/data';
 import papaparse from 'https://jslib.k6.io/papaparse/5.1.1/index.js';
 import encoding from 'k6/encoding';
 
+
+export const options = {
+    discardResponseBodies: true,
+
+    scenarios: {
+        ramping_up_scenario: {
+            executor: 'ramping-vus',
+            startVUs:10,
+            stages: [
+                { target: 150, duration: '5m' },
+                { target: 150, duration: '10m' },
+                { target: 100, duration: '10m' },
+                { target: 50, duration: '20m' },
+                { target: 10, duration: '20m' },
+            ],
+        },
+    },
+};
 export default function () {
     const randomQuery = queriesCSV[Math.floor(Math.random() * queriesCSV.length)]['query'];
     const payload = searchQueryPayload(randomQuery)

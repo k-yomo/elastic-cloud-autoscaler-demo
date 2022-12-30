@@ -18,9 +18,13 @@ https://cloud.elastic.co/deployment-features/keys
 $ export EC_API_KEY=
 ```
 
-2. Run `setup` command.  It'll create required deployments and elasticsearch index with 1.7M documents.
+2. Run `setup` command.  It'll create required deployments and elasticsearch index.
 ```shell
 $ make setup
+```
+3. Run `index-products` command.  It'll index 1.7M documents. The data [Shopping Queries Dataset](https://github.com/amazon-science/esci-data) published from Amazon.
+```shell
+$ make index-products
 ```
 
 ## Usage
@@ -37,6 +41,12 @@ topology size updated from: 65536 => to 131072
 replica num updated from: 1 => to 3
 reason: current or desired topology size '64g' is less than min topology size '128g'
 ==============================================
+```
+
+To increase CPU util, `make loadtest` command will send search requests using k6.
+It'll gradually increase traffic and then decrease, so you can see the scale-out and scale-in.
+```shell
+$ make loadtest
 ```
 
 ## Cleanup

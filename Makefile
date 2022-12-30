@@ -6,8 +6,6 @@ setup:
 	cd terraform && terraform init
 	cd terraform && terraform apply
 	make set-env-vars
-	direnv allow .
-	make index-products
 
 .PHONY: cleanup
 cleanup:
@@ -38,3 +36,7 @@ index-products:
 .PHONY: run
 run:
 	go run .
+
+.PHONY: loadtest
+loadtest:
+	 cd k6 && k6 run script.js

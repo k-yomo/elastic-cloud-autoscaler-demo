@@ -42,7 +42,7 @@ func realMain() error {
 	productsBulkIndexer, err := esutil.NewBulkIndexer(esutil.BulkIndexerConfig{
 		Client:        esClient,
 		Index:         "products",
-		FlushInterval: 1 * time.Second,
+		FlushInterval: 3 * time.Second,
 		OnError: func(ctx context.Context, err error) {
 			log.Println(err)
 		},

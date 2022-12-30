@@ -13,6 +13,7 @@ import (
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/k-yomo/elastic-cloud-autoscaler/autoscaler"
 	"github.com/k-yomo/elastic-cloud-autoscaler/metrics"
+	"github.com/k-yomo/elastic-cloud-autoscaler/pkg/elasticcloud"
 )
 
 func main() {
@@ -63,20 +64,20 @@ func realMain() error {
 		DeploymentID:        deploymentID,
 		ElasticsearchClient: esClient,
 		Scaling: autoscaler.ScalingConfig{
-			DefaultMinSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(1)),
-			DefaultMaxSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(2)),
+			DefaultMinSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(3)),
+			DefaultMaxSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(6)),
 			AutoScaling: &autoscaler.AutoScalingConfig{
 				MetricsProvider:           metrics.NewMonitoringElasticsearchMetricsProvider(monitoringESClient),
 				DesiredCPUUtilPercent:     50,
-				ScaleOutThresholdDuration: 5 * time.Minute,
-				ScaleInThresholdDuration:  5 * time.Minute,
+				ScaleOutThresholdDuration: 1 * time.Minute,
+				ScaleInThresholdDuration:  1 * time.Minute,
 			},
 			ScheduledScalings: []*autoscaler.ScheduledScalingConfig{
 				// {
 				// 	StartCronSchedule: "TZ=UTC 30 * * * *",
 				// 	Duration:          30 * time.Minute,
-				// 	MinSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(2)),
-				// 	MaxSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(4)),
+				// 	MinSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(4)),
+				// 	MaxSizeMemoryGB:   int(autoscaler.SixtyFourGiBNodeNumToTopologySize(6)),
 				// },
 			},
 			Index:         "products",
@@ -94,10 +95,10 @@ func realMain() error {
 			if err != nil {
 				return err
 			}
-			fmt.Println("==============================================")
 			if scalingOperation.Direction() != autoscaler.ScalingDirectionNone || scalingOperation.FromReplicaNum != scalingOperation.ToReplicaNum {
+				fmt.Println("==============================================")
 				fmt.Println("scaling direction:", scalingOperation.Direction())
-				fmt.Println(fmt.Sprintf("topology size updated from: %d => to %d", *scalingOperation.FromTopologySize.Value, *scalingOperation.ToTopologySize.Value))
+				fmt.Println(fmt.Sprintf("node num updated from: %d => to %d", elasticcloud.CalcNodeNum(scalingOperation.FromTopologySize, 2), elasticcloud.CalcNodeNum(scalingOperation.ToTopologySize, 2)))
 				if scalingOperation.FromReplicaNum != scalingOperation.ToReplicaNum {
 					fmt.Println(fmt.Sprintf("replica num updated from: %d => to %d", scalingOperation.FromReplicaNum, scalingOperation.ToReplicaNum))
 				}

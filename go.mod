@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/elastic/cloud-sdk-go v1.11.0
 	github.com/elastic/go-elasticsearch/v8 v8.5.0
-	github.com/k-yomo/elastic-cloud-autoscaler v0.0.0-20221228063723-db0aa16baa4f
+	github.com/k-yomo/elastic-cloud-autoscaler v0.0.0-20221230090237-d722c2befb17
 )
 
 require (
