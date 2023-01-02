@@ -9,6 +9,7 @@ Demo of https://github.com/k-yomo/elastic-cloud-autoscaler
 - Terraform v1.3.6
 - [k6](https://k6.io/docs/get-started/installation/)
 - [direnv](https://direnv.net/)
+- [Git LFS](https://git-lfs.com/)
 
 ## Setup
 Create Elastic Cloud's API key and set it to env variable.
