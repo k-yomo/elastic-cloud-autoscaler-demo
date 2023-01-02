@@ -31,6 +31,7 @@ set-env-vars:
 
 .PHONY: index-products
 index-products:
+	cd scripts/index_products && gzip -d products.csv.gz > products.csv
 	cd scripts/index_products && go run .
 
 .PHONY: run

@@ -23,3 +23,5 @@
 
 .env
 .envrc.local
+
+scripts/index_products/products.csv
