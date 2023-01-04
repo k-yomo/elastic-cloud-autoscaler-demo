@@ -64,8 +64,8 @@ func realMain() error {
 		DeploymentID:        deploymentID,
 		ElasticsearchClient: esClient,
 		Scaling: autoscaler.ScalingConfig{
-			DefaultMinSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(3)),
-			DefaultMaxSizeMemoryGB: int(autoscaler.SixtyFourGiBNodeNumToTopologySize(6)),
+			DefaultMinMemoryGBPerZone: autoscaler.SixtyFourGiBNodeNumToTopologySize(3),
+			DefaultMaxMemoryGBPerZone: autoscaler.SixtyFourGiBNodeNumToTopologySize(6),
 			AutoScaling: &autoscaler.AutoScalingConfig{
 				MetricsProvider:           metrics.NewMonitoringElasticsearchMetricsProvider(monitoringESClient),
 				DesiredCPUUtilPercent:     50,
